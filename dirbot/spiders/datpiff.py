@@ -6,13 +6,13 @@ from dirbot.items import Website
 
 class DmozSpider(Spider):
     name = "dmoz"
-    allowed_domains = ["dmoz.org"]
+    allowed_domains = ["datpiff.com"]
     start_urls = [
-        "http://www.dmoz.org/Computers/Programming/Languages/Python/Books/",
-        "http://www.dmoz.org/Computers/Programming/Languages/Python/Resources/",
+        "http://www.datpiff.com/CB-Smooth-CB-Smooth-Country-Boy-Smooth-mixtape.655710.html",
+        "http://www.datpiff.com/Wale-x-A-Trak-Festivus-mixtape.675330.html",
     ]
 
-    def parse(self, response):
+    '''def parse(self, response):
         """
         The lines below is a spider contract. For more info see:
         http://doc.scrapy.org/en/latest/topics/contracts.html
@@ -31,4 +31,10 @@ class DmozSpider(Spider):
             item['description'] = site.xpath('text()').re('-\s[^\n]*\\r')
             items.append(item)
 
-        return items
+        return items'''
+
+    def parse(self, response):
+        filename = response.url.split("/")[-2]
+        filename = filename[-1].split("-")[1]
+        with open(filename, 'wb') as f:
+            f.write(response.body)
