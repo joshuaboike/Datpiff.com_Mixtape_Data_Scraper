@@ -186,11 +186,11 @@ ados_load();
                                                     </div>
                   		<div class="description">
                         	                        	<div class="stats mixtape">
-                                <div class="number views">124,955</div>
+                                <div class="number views">125,187</div>
                             	<div class="subtext">views</div>
-                                <div class="number streams">18,043</div>
+                                <div class="number streams">18,075</div>
                             	<div class="subtext">streams</div>
-                                                                <div class="number downloads">52,728</div>
+                                                                <div class="number downloads">52,818</div>
                             	<div class="subtext">downloads</div>
                                                                                             	<div itemprop='aggregateRating' itemscope itemtype='http://schema.org/AggregateRating'>
                                 	<img src="http://edge-static.datpiff.com/images/largeRating5.png" alt="5 Stars" title="click to rate" id="ratingImg" style="width:80px; cursor:pointer;" onclick="toggleOver( 'Rate' ); return false;">
@@ -392,7 +392,7 @@ ados_load();
                         <div class="searchbar">
                             <input type="text" name="criteria" value="Search mixtapes" onfocus="inptClearDefault( this, true, 'Search mixtapes' );" onblur="inptClearDefault( this, false, 'Search mixtapes' );" id="inptSearch">
                             <input type="image" src="/images/clear.gif" title="Search" class="inptSearchBtn">
-                            <input type="hidden" name="submit" value="MTAxNTQ3MS45Mzg1MTIxODA1MDg1NDYwMQ">
+                            <input type="hidden" name="submit" value="MTAxNTQuMTQ5NjgwMTkyNTA4ODQ2NjAx">
                         </div>
                         <div class="searchoptions" id="searchoptions">In the future, not only will advanced search options be here, but this menu will appear to slide out and in, rather than just appear like this.</div>
                         <div class="searchoptionsHeader">&nbsp;</div>
@@ -440,8 +440,8 @@ ados_load();
                         					</div>
                     
                     
-                                        <div style="margin:5px 0 10px 0;" align="center"><a href="/redirect.php?caid=328" title="Frenchie " ><img src="http://edge-ads.datpiff.com/columnads/Frenchie.r328.gif" alt="Frenchie " /></a></div>
                                         <div style="margin:5px 0 10px 0;" align="center"><a href="/redirect.php?caid=329" title="Gear" target="_blank"><img src="http://edge-ads.datpiff.com/columnads/Gear.r329.gif" alt="Gear" /></a></div>
+                                        <div style="margin:5px 0 10px 0;" align="center"><a href="/redirect.php?caid=328" title="Frenchie " ><img src="http://edge-ads.datpiff.com/columnads/Frenchie.r328.gif" alt="Frenchie " /></a></div>
                                         
 					                    <div class="module skycontent">
                         <h1><span class="icon mixtape">&nbsp;</span>Hot This Week</h1>
