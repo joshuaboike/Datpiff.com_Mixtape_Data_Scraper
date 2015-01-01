@@ -1,11 +1,11 @@
-name,url,views,streams,downloads,DJ,mondayDummy,tuesdayDummy,wednesdayDummy,thursdayDummy,fridayDummy,saturdayDummy
-Vic Mensa,"/Vic-Mensa-Innanetape-mixtape.536504.html,/Vic-Mensa-Innanetape-mixtape.536504.html","321,759","65,824","136,387",0,1,0,0,0,0,0
-Lucki Eck$,/Lucki-Eck-Body-High-mixtape.637425.html,"16,287","2,110","4,735",0,0,0,0,0,1,0
-CB Smooth,/CB-Smooth-CB-Smooth-Country-Boy-Smooth-mixtape.655710.html,"23,185","4,271","2,842",0,0,0,0,1,0,0
-Wale x A-Trak,"/Wale-x-A-Trak-Festivus-mixtape.675330.html,/Wale-x-A-Trak-Festivus-mixtape.675330.html","129,782","18,888","54,552",0,0,1,0,0,0,0
-Mick Jenkins,/Mick-Jenkins-The-Waters-mixtape.638443.html,"119,303","17,606","51,524",0,0,1,0,0,0,0
-Earl Sweatshirt,,"641,626","124,036","168,562",0,0,0,0,0,0,0
-Mick Jenkins,,"99,152","14,065","29,107",0,0,0,0,1,0,0
-Tyler The Creator,"/Tyler-The-Creator-Bastard-mixtape.184449.html,/Tyler-The-Creator-Bastard-mixtape.184449.html","1,355,484","314,385","514,722",1,0,0,0,0,0,1
-Chance The Rapper,,"954,399","129,270","309,532",0,0,0,0,0,0,0
-Joey Bada$$,"/Joey-Bada-1999-mixtape.361792.html,/Joey-Bada-1999-mixtape.361792.html","1,392,476,SERIES","270,097","622,748",1,0,1,0,0,0,0
+artistName,mixtapeName,url,views,streams,downloads,numberTracks,projectDuration,percentFeatures,djDummy,sponsoredDummy,officialDummy,mondayDummy,tuesdayDummy,wednesdayDummy,thursdayDummy,fridayDummy,saturdayDummy
+Wale x A-Trak,Festivus,http://www.datpiff.com/Wale-x-A-Trak-Festivus-mixtape.675330.html,"141,467","21,042","58,714",11,45.4,0.6363636363636364,0,1,1,0,1,0,0,0,0
+CB Smooth,CB Smooth - Country Boy Smooth,http://www.datpiff.com/CB-Smooth-CB-Smooth-Country-Boy-Smooth-mixtape.655710.html,"23,667","4,338","2,862",17,59.21666666666667,0.5294117647058824,0,1,0,0,0,0,1,0,0
+Mick Jenkins,Trees And Truths,http://www.datpiff.com/Mick-Jenkins-Trees-And-Truths-mixtape.481765.html,"99,416","14,085","29,178",17,48.13333333333333,0.23529411764705882,0,0,0,0,0,0,1,0,0
+Tyler The Creator,Bastard,http://www.datpiff.com/Tyler-The-Creator-Bastard-mixtape.184449.html,"1,355,819","314,413","514,833",15,55.75,0.4666666666666667,1,1,1,0,0,0,0,0,1
+Mick Jenkins,The Water[s],http://www.datpiff.com/Mick-Jenkins-The-Waters-mixtape.638443.html,"120,265","17,688","51,961",15,57.11666666666667,0.4,0,1,0,0,1,0,0,0,0
+Earl Sweatshirt,Earl,http://www.datpiff.com/Earl-Sweatshirt-Earl-mixtape.179914.html,"641,819","124,044","168,599",10,25.866666666666667,0.4,0,0,0,0,0,0,0,0,0
+Lucki Eck$,Body High,http://www.datpiff.com/Lucki-Eck-Body-High-mixtape.637425.html,"16,439","2,117","4,772",12,38.85,0.08333333333333333,0,1,0,0,0,0,0,1,0
+Chance The Rapper,10 Day,http://www.datpiff.com/Chance-The-Rapper-10-Day-mixtape.337986.html,"954,895","129,300","309,721",14,52.15,0.2857142857142857,0,0,0,0,0,0,0,0,0
+Vic Mensa,Innanetape,http://www.datpiff.com/Vic-Mensa-Innanetape-mixtape.536504.html,"322,016","65,839","136,489",14,52.9,0.5714285714285714,0,1,1,1,0,0,0,0,0
+Joey Bada$$,1999,http://www.datpiff.com/Joey-Bada-1999-mixtape.361792.html,"1,393,087","270,139","623,006",15,61.333333333333336,0.5333333333333333,1,1,1,0,1,0,0,0,0

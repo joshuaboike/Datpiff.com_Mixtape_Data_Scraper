@@ -37,31 +37,73 @@ class DatpiffSpider(Spider):
         for site in sites:
             item = Website()
 
-            item['name'] = site.xpath('div[@class="module1"]/div[@class="content"]/h1/span[@itemprop="byArtist"]/text()').extract()
+            item['artistName'] = site.xpath('//h1/span[@itemprop="byArtist"]/text()').extract()
+
+            item['mixtapeName'] = site.xpath('//h1/span[@class="timesGray"]/text()').extract()
     
-            item['url'] = site.xpath('div[@class="module1"]/a/@href').extract()
+            item['url'] = site.xpath('meta[@itemprop="url"]/@content').extract()
 
-            item['views'] = site.xpath('div[@class="module1"]/div[@class="content"]/div[@class="description"]/div[@class="stats mixtape"]/div[@class="number views"]/text()').extract()
+            item['views'] = site.xpath('//div[@class="number views"][1]/text()').extract()
 
-            item['streams'] = site.xpath('div[@class="module1"]/div[@class="content"]/div[@class="description"]/div[@class="stats mixtape"]/div[@class="number streams"]/text()').extract()
+            item['streams'] = site.xpath('//div[@class="stats mixtape"]/div[@class="number streams"]/text()').extract()
 
-            item['downloads'] = site.xpath('div[@class="module1"]/div[@class="content"]/div[@class="description"]/div[@class="stats mixtape"]/div[@class="number downloads"]/text()').extract()
+            item['downloads'] = site.xpath('//div[@class="number downloads"]/text()').extract()
 
-            '''item['ratingValue'] = site.xpath('div[@class="module1"]/div[@class="content"]/div[@class="description"]/div[@itemprop="aggregateRating"]/meta[@itemprop="ratingValue"]').extract()
-            print
-            print
-            print 'RATINGVALUE:', item['ratingValue']
+            '''item['ratingValue'] = site.xpath('//meta[@itemprop = "ratingValue"]/@content').extract() #Didn't use
 
-            items.append(item)'''
+            item['ratingCount'] = site.xpath('//meta[@itemprop = "ratingCount"]/@content').extract() #Didn't use
+
+            item['bestRating'] = site.xpath('//meta[@itemprop = "bestRating"]/@content').extract() #Didn't use
+
+            item['worstRating'] = site.xpath('//meta[@itemprop = "worstRating"]/@content').extract()''' #Didn't use
+
+            item['numberTracks'] = site.xpath('meta[@itemprop="numTracks"]/@content').extract()
+
+            #Duration calculations
+            totalDurationSec = 0
+            item['trackDuration'] = site.xpath('//ul[@class="tracklist"]/li[@itemprop="track"]/meta[@itemprop="duration"]/@content').extract()
+            for track in item['trackDuration']:
+                tempTrack = track[2:-1].split("M")
+                trackSeconds = (int(tempTrack[0]) * 60) + int(tempTrack[1])
+                totalDurationSec += trackSeconds
+            item['projectDuration'] = totalDurationSec / 60.0
+
+            #numberFeatures and percentFeatures calculations
+            numTracks = float(str(item['numberTracks'])[3:-2])
+            songsWithFeatures = 0
+            featureChecks = (' ft ', '(ft', '[ft', ' ft.', ' feat ', '(feat', 'feat.', 'featuring')
+            item['trackTitle'] = site.xpath('//ul[@class="tracklist"]/li[@itemprop="track"]/span[@class="trackTitle"]/text()').extract()
+            for track in item['trackTitle']:
+                trackLower = track.lower()
+                #first checks to see if the track has any features at all
+                if any(i in trackLower for i in featureChecks):
+                    songsWithFeatures += 1
+                else:
+                    continue
+            item['percentFeatures'] = songsWithFeatures / numTracks
 
             #DJ dummy variable
-            item['DJ'] = site.xpath('div[@class="module1"]/div[@class="content"]/div[@class="detailbar"]/div[@class="left"]/div/span[@class="charcoal"]/text()').extract()
-            if item['DJ'] == [u'N/A']:
-                item['DJ'] = 0
+            item['djDummy'] = site.xpath('//div[@class="detailbar"]/div[@class="left"]/div/span[@class="charcoal"]/text()').extract()
+            if item['djDummy'] == [u'N/A']:
+                item['djDummy'] = 0
             else:
-                item['DJ']= 1
+                item['djDummy'] = 1
 
-            item['monthdayReleased'] = site.xpath('div[@class="module1"]/div[@class="content"]/div[@class="detailbar"]/div[@class="right"]/div/span[@class="charcoal"]/text()').extract()
+            #Sponsored dummy variable
+            item['sponsoredDummy'] = site.xpath('//div[@class="awardBanner sponsor"]/span/text()').extract()
+            if item['sponsoredDummy'] == [u'SPONSORED:']:
+                item['sponsoredDummy'] = 1
+            else:
+                item['sponsoredDummy'] = 0
+         
+            #Official dummmy variable
+            item['officialDummy'] = site.xpath('//div[@class="awardBanner official"]').extract()
+            if item['officialDummy']:
+                item['officialDummy'] = 1
+            else:
+                item['officialDummy'] = 0
+
+            item['monthdayReleased'] = site.xpath('//div[@class="detailbar"]/div[@class="right"]/div/span[@class="charcoal"]/text()').extract()
             date = str(item['monthdayReleased'])[3:-2]
             year = date.split("/")[2]
             month = date.split("/")[1]
@@ -90,7 +132,7 @@ class DatpiffSpider(Spider):
             elif weekday == 'Saturday':
                 item['saturdayDummy'] = 1
 
-
+            '''items.append(item)'''
 
             '''print
             print
