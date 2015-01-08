@@ -1,15 +1,18 @@
 from scrapy.spider import Spider
 from scrapy.selector import Selector
+from scrapy.http import Request
 
 from MixtapeScraper.items import Website
 
 import datetime
+import scrapy
 
 
 class DatpiffSpider(Spider):
     name = "datpiff"
     allowed_domains = ["datpiff.com"]
-    start_urls = [
+    start_urls = ["http://www.datpiff.com/mixtapes/celebrated"]
+    '''start_urls = [
         "http://www.datpiff.com/CB-Smooth-CB-Smooth-Country-Boy-Smooth-mixtape.655710.html",
         "http://www.datpiff.com/Wale-x-A-Trak-Festivus-mixtape.675330.html",
         "http://www.datpiff.com/Mick-Jenkins-Trees-And-Truths-mixtape.481765.html",
@@ -20,21 +23,44 @@ class DatpiffSpider(Spider):
         "http://www.datpiff.com/Lucki-Eck-Body-High-mixtape.637425.html",
         "http://www.datpiff.com/Chance-The-Rapper-10-Day-mixtape.337986.html",
         "http://www.datpiff.com/Joey-Bada-1999-mixtape.361792.html",
-    ]
+    ]'''
 
     def parse(self, response):
-        """
-        The lines below is a spider contract. For more info see:
-        http://doc.scrapy.org/en/latest/topics/contracts.html
+        '''this function takes the initial datpiff.com webpage that contains all the subsequent mixtape links, scrapes the 
+        links, and puts them into list secondary_urls. These urls are passed to XXXXXX for further scraping off of their
+        own individual pages'''
 
-        @url http://www.datpiff.com/Wale-x-A-Trak-Festivus-mixtape.675330.html
-        @scrapes name
-        """
+        sel = Selector(response)
+        sites = sel.xpath('//div[@id="leftColumnWide"]')
+        secondary_urls = []
+
+        for site in sites:
+            base_url = "http://datpiff.com"
+            tempName = site.xpath('//div[@class="contentItemInner"]/a[1]/@href').extract()
+        
+        for temp in tempName:
+            secondary_urls.append(base_url + temp)
+
+        # Setting up a new request to pass to the get_DT method, also passing along the 'item' class meta data
+        '''request = scrapy.Request(website, callback=self.mixtapePage)
+        request.meta['item'] = item
+        yield request'''
+
+        requestList = []
+        for url in secondary_urls:
+            request = Request(url, callback=self.mixtapePage)
+            requestList.append(request)
+        
+        return requestList
+
+    def mixtapePage(self, response):
+
         sel = Selector(response)
         sites = sel.xpath('//div[@id="leftColumnWide"]')
         items = []
 
         for site in sites:
+
             item = Website()
 
             item['artistName'] = site.xpath('//h1/span[@itemprop="byArtist"]/text()').extract()
@@ -49,13 +75,13 @@ class DatpiffSpider(Spider):
 
             item['downloads'] = site.xpath('//div[@class="number downloads"]/text()').extract()
 
-            '''item['ratingValue'] = site.xpath('//meta[@itemprop = "ratingValue"]/@content').extract() #Didn't use
+            #item['ratingValue'] = site.xpath('//meta[@itemprop = "ratingValue"]/@content').extract() 
 
-            item['ratingCount'] = site.xpath('//meta[@itemprop = "ratingCount"]/@content').extract() #Didn't use
+            #item['ratingCount'] = site.xpath('//meta[@itemprop = "ratingCount"]/@content').extract() 
 
-            item['bestRating'] = site.xpath('//meta[@itemprop = "bestRating"]/@content').extract() #Didn't use
+            #item['bestRating'] = site.xpath('//meta[@itemprop = "bestRating"]/@content').extract() 
 
-            item['worstRating'] = site.xpath('//meta[@itemprop = "worstRating"]/@content').extract()''' #Didn't use
+            #item['worstRating'] = site.xpath('//meta[@itemprop = "worstRating"]/@content').extract() #Didn't end up using these
 
             item['numberTracks'] = site.xpath('meta[@itemprop="numTracks"]/@content').extract()
 
@@ -71,7 +97,7 @@ class DatpiffSpider(Spider):
             #numberFeatures and percentFeatures calculations
             numTracks = float(str(item['numberTracks'])[3:-2])
             songsWithFeatures = 0
-            featureChecks = (' ft ', '(ft', '[ft', ' ft.', ' feat ', '(feat', 'feat.', 'featuring')
+            featureChecks = (' ft ', '(ft', '[ft', ' ft.', ' feat ', '(feat', '[feat', ' feat.', 'featuring')
             item['trackTitle'] = site.xpath('//ul[@class="tracklist"]/li[@itemprop="track"]/span[@class="trackTitle"]/text()').extract()
             for track in item['trackTitle']:
                 trackLower = track.lower()
@@ -103,6 +129,7 @@ class DatpiffSpider(Spider):
             else:
                 item['officialDummy'] = 0
 
+            #Date variables
             item['monthdayReleased'] = site.xpath('//div[@class="detailbar"]/div[@class="right"]/div/span[@class="charcoal"]/text()').extract()
             date = str(item['monthdayReleased'])[3:-2]
             year = date.split("/")[2]
@@ -132,11 +159,7 @@ class DatpiffSpider(Spider):
             elif weekday == 'Saturday':
                 item['saturdayDummy'] = 1
 
-            '''items.append(item)'''
-
-            '''print
-            print
-            print 'DATESINCERELEASED:', item['dateSinceReleased']'''
+            #items.append(item)
 
         return item
 
