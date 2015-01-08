@@ -17,9 +17,13 @@ class CSVPipeline(object):
     file = open('%s_items.csv' % spider.name, 'w+b')
     self.files[spider] = file
     self.exporter = CsvItemExporter(file)
-    self.exporter.fields_to_export = ['artistName', 'mixtapeName', 'url', 'downloads', 'streams', 'views', 
-    'numberTracks','projectDuration', 'percentFeatures', 'djDummy', 'sponsoredDummy', 'officialDummy', 
-    'mondayDummy', 'tuesdayDummy', 'wednesdayDummy','thursdayDummy','fridayDummy','saturdayDummy']
+    self.exporter.fields_to_export = ['artistName', 'mixtapeName', 'url', 'downloads', 'views', 
+    'numberTracks', 'percentFeatures', 'productionDummy', 'daysSinceRelease']
+
+    #unused items whose code works fine
+    ''' 'djDummy', 'sponsoredDummy', 'officialDummy', 'streams', 'projectDuration',
+    'mondayDummy', 'tuesdayDummy', 'wednesdayDummy','thursdayDummy','fridayDummy','saturdayDummy']'''
+
     self.exporter.start_exporting()
 
   def spider_closed(self, spider):

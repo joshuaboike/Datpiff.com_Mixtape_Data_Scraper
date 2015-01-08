@@ -13,9 +13,15 @@ class Website(Item):
     trackDuration = Field()
     projectDuration = Field()
     trackTitle = Field()
-    numberFeatures = Field()
     percentFeatures = Field()
+    productionDummy = Field()
+    daysSinceRelease = Field()
     djDummy = Field()
+
+    #complete but not useful
+    monthdayReleased = Field()
+    monthReleased = Field()
+    numberFeatures = Field()
     sponsoredDummy = Field()
     officialDummy = Field()
     mondayDummy = Field()
@@ -24,13 +30,11 @@ class Website(Item):
     thursdayDummy = Field()
     fridayDummy = Field()
     saturdayDummy = Field()
-    '''ratingValue = Field()
+    ratingValue = Field()
     ratingCount = Field()
     bestRating = Field()
-    worstRating = Field()''' #Didn't use these
-    monthdayReleased = Field()
-    monthReleased = Field()
-    dateSinceReleased = Field()
-    numberProducers = Field()
-    percentProducers = Field()
+    worstRating = Field()
+
+    
+
 

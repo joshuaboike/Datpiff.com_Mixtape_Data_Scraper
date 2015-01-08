@@ -5,13 +5,14 @@ from scrapy.http import Request
 from MixtapeScraper.items import Website
 
 import datetime
-import scrapy
 
 
 class DatpiffSpider(Spider):
     name = "datpiff"
     allowed_domains = ["datpiff.com"]
     start_urls = ["http://www.datpiff.com/mixtapes/celebrated"]
+
+    #Test URLS
     '''start_urls = [
         "http://www.datpiff.com/CB-Smooth-CB-Smooth-Country-Boy-Smooth-mixtape.655710.html",
         "http://www.datpiff.com/Wale-x-A-Trak-Festivus-mixtape.675330.html",
@@ -40,11 +41,6 @@ class DatpiffSpider(Spider):
         
         for temp in tempName:
             secondary_urls.append(base_url + temp)
-
-        # Setting up a new request to pass to the get_DT method, also passing along the 'item' class meta data
-        '''request = scrapy.Request(website, callback=self.mixtapePage)
-        request.meta['item'] = item
-        yield request'''
 
         requestList = []
         for url in secondary_urls:
@@ -75,14 +71,6 @@ class DatpiffSpider(Spider):
 
             item['downloads'] = site.xpath('//div[@class="number downloads"]/text()').extract()
 
-            #item['ratingValue'] = site.xpath('//meta[@itemprop = "ratingValue"]/@content').extract() 
-
-            #item['ratingCount'] = site.xpath('//meta[@itemprop = "ratingCount"]/@content').extract() 
-
-            #item['bestRating'] = site.xpath('//meta[@itemprop = "bestRating"]/@content').extract() 
-
-            #item['worstRating'] = site.xpath('//meta[@itemprop = "worstRating"]/@content').extract() #Didn't end up using these
-
             item['numberTracks'] = site.xpath('meta[@itemprop="numTracks"]/@content').extract()
 
             #Duration calculations
@@ -94,19 +82,29 @@ class DatpiffSpider(Spider):
                 totalDurationSec += trackSeconds
             item['projectDuration'] = totalDurationSec / 60.0
 
-            #numberFeatures and percentFeatures calculations
+            #percentFeatures calculations
             numTracks = float(str(item['numberTracks'])[3:-2])
             songsWithFeatures = 0
+            item['productionDummy'] = 0
             featureChecks = (' ft ', '(ft', '[ft', ' ft.', ' feat ', '(feat', '[feat', ' feat.', 'featuring')
+            productionChecks = (' prod ', '(prod', '[prod', ' prod.', 'produced by')
             item['trackTitle'] = site.xpath('//ul[@class="tracklist"]/li[@itemprop="track"]/span[@class="trackTitle"]/text()').extract()
             for track in item['trackTitle']:
                 trackLower = track.lower()
-                #first checks to see if the track has any features at all
+                #count number of songs with features
                 if any(i in trackLower for i in featureChecks):
                     songsWithFeatures += 1
                 else:
                     continue
+                #check if mixtape includes producer credits or noth (usually an all or  none thing, hence it is a boolean)
+                if any(i in trackLower for i in productionChecks):
+                    item['productionDummy'] = 1
+                    break
+                else:
+                    continue
+
             item['percentFeatures'] = songsWithFeatures / numTracks
+
 
             #DJ dummy variable
             item['djDummy'] = site.xpath('//div[@class="detailbar"]/div[@class="left"]/div/span[@class="charcoal"]/text()').extract()
@@ -136,9 +134,12 @@ class DatpiffSpider(Spider):
             month = date.split("/")[1]
             day = date.split("/")[0]
             item['monthdayReleased'] = month
+            releaseDate = datetime.datetime(int(year),int(day), int(month))
+            currentTime = datetime.datetime.now()
+            timeSince =  currentTime - releaseDate
+            item['daysSinceRelease'] = timeSince.days
 
             #Weekday dummy variables
-            releaseDate = datetime.date(int(year),int(day), int(month))
             weekday = releaseDate.strftime("%A")
             item['mondayDummy'] = 0
             item['tuesdayDummy'] = 0
@@ -159,12 +160,15 @@ class DatpiffSpider(Spider):
             elif weekday == 'Saturday':
                 item['saturdayDummy'] = 1
 
+            #Didn't end up using these
+            '''item['ratingValue'] = site.xpath('//meta[@itemprop = "ratingValue"]/@content').extract() 
+
+            item['ratingCount'] = site.xpath('//meta[@itemprop = "ratingCount"]/@content').extract() 
+
+            item['bestRating'] = site.xpath('//meta[@itemprop = "bestRating"]/@content').extract() 
+
+            item['worstRating'] = site.xpath('//meta[@itemprop = "worstRating"]/@content').extract()''' 
+
             #items.append(item)
 
         return item
-
-    '''def parse(self, response):
-        filename = response.url.split("/")[-1]
-        filename = filename.split("-")[0]
-        with open(filename, 'wb') as f:
-            f.write(response.body)'''
