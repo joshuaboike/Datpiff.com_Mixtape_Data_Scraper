@@ -18,7 +18,7 @@ class Website(Item):
     daysSinceRelease = Field()
     djDummy = Field()
 
-    #complete but not useful
+    #complete or in progress but not useful
     monthdayReleased = Field()
     monthReleased = Field()
     numberFeatures = Field()

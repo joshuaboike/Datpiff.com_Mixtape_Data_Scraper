@@ -27,9 +27,10 @@ class DatpiffSpider(Spider):
     ]'''
 
     def parse(self, response):
-        '''this function takes the initial datpiff.com webpage that contains all the subsequent mixtape links, scrapes the 
-        links, and puts them into list secondary_urls. These urls are passed to XXXXXX for further scraping off of their
-        own individual pages'''
+        '''this function takes the initial datpiff.com webpage that contains all the subsequent 
+        mixtape links (such as Datpiff's 'celebrated' page), scrapes the links, and puts them 
+        into list secondary_urls. These urls are passed to mixtapePage function for further 
+        scraping off of their own individual pages'''
 
         sel = Selector(response)
         sites = sel.xpath('//div[@id="leftColumnWide"]')
@@ -82,7 +83,7 @@ class DatpiffSpider(Spider):
                 totalDurationSec += trackSeconds
             item['projectDuration'] = totalDurationSec / 60.0
 
-            #percentFeatures calculations
+            #percentFeatures calculations (what % of tracks contain at least one feature)
             numTracks = float(str(item['numberTracks'])[3:-2])
             songsWithFeatures = 0
             item['productionDummy'] = 0
@@ -160,7 +161,7 @@ class DatpiffSpider(Spider):
             elif weekday == 'Saturday':
                 item['saturdayDummy'] = 1
 
-            #Didn't end up using these
+            #Didn't end up using these for analysis
             '''item['ratingValue'] = site.xpath('//meta[@itemprop = "ratingValue"]/@content').extract() 
 
             item['ratingCount'] = site.xpath('//meta[@itemprop = "ratingCount"]/@content').extract() 
@@ -168,7 +169,5 @@ class DatpiffSpider(Spider):
             item['bestRating'] = site.xpath('//meta[@itemprop = "bestRating"]/@content').extract() 
 
             item['worstRating'] = site.xpath('//meta[@itemprop = "worstRating"]/@content').extract()''' 
-
-            #items.append(item)
 
         return item
